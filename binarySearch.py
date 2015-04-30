@@ -13,8 +13,12 @@ def binarySearchWithDuplicates(arr, target):
     randomone = binarySearch(arr, target)
     if randomone < 0 : return -1, -1
     search = lambda array: binarySearch(array, target)
-    loop1 = lambda array, searchfirst, first: first if searchfirst == -1 else loop1(array[:searchfirst], search(array[:searchfirst]),searchfirst)
-    loop2 = lambda array, searchlast, last: last if searchlast == -1 else loop2(array[searchlast+1:], search(array[searchlast+1:]),last + searchlast + 1)
+    loop1 = lambda array, searchfirst, first: \
+            first if searchfirst == -1 \
+            else loop1(array[:searchfirst], search(array[:searchfirst]),searchfirst)
+    loop2 = lambda array, searchlast, last: \
+            last if searchlast == -1 \
+            else loop2(array[searchlast+1:], search(array[searchlast+1:]),last + searchlast + 1)
     first = loop1(arr[:randomone],search(arr[:randomone]),randomone)
     last = loop2(arr[randomone+1:],search(arr[randomone+1:]),randomone)
     return first, last
