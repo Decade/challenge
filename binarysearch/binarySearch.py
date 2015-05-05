@@ -1,8 +1,9 @@
+# Binary searches. Return index of target, or -1 if target does not exist.
+# With duplicates, then return indices of target.
 
 def binarySearch(arr, target):
     if len(arr) == 0: return -1
-    first, last = 0, len(arr)
-    mid = (first + last) // 2
+    mid = len(arr) // 2
     midthing = arr[mid]
     if midthing == target: return mid
     if midthing > target: return binarySearch(arr[:mid],target)
@@ -13,14 +14,14 @@ def binarySearchWithDuplicates(arr, target):
     randomone = binarySearch(arr, target)
     if randomone < 0 : return -1, -1
     search = lambda array: binarySearch(array, target)
-    loop1 = lambda array, searchfirst, first: \
-            first if searchfirst == -1 \
-            else loop1(array[:searchfirst], search(array[:searchfirst]),searchfirst)
-    loop2 = lambda array, searchlast, last: \
-            last if searchlast == -1 \
-            else loop2(array[searchlast+1:], search(array[searchlast+1:]),last + searchlast + 1)
-    first = loop1(arr[:randomone],search(arr[:randomone]),randomone)
-    last = loop2(arr[randomone+1:],search(arr[randomone+1:]),randomone)
+    findfirst = lambda array, searchfirst, first: \
+                first if searchfirst == -1 \
+                else findfirst(array[:searchfirst], search(array[:searchfirst]),searchfirst)
+    findlast = lambda array, searchlast, last: \
+               last if searchlast == -1 \
+               else findlast(array[searchlast+1:], search(array[searchlast+1:]),last + searchlast + 1)
+    first = findfirst(arr[:randomone],search(arr[:randomone]),randomone)
+    last = findlast(arr[randomone+1:],search(arr[randomone+1:]),randomone)
     return first, last
     
 for i in range(0, 10):
