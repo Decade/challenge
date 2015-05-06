@@ -15,26 +15,25 @@
 # Line 2n+2: Space-separated pre-order traversal list.
 
 import itertools
-import functools
 
 def validBST(tree):
-    if len(tree) < 2:
+    iterator = iter(tree)
+    try:
+        thisroot = next(iterator)
+        subtrees = itertools.groupby(iterator, key = lambda x: x < thisroot)
+        seenright = False
+        for lessthan, subtree in subtrees:
+            if seenright: return False
+            if not validBST(subtree): return False
+            seenright = not lessthan
         return True
-    thisroot = tree[0]
-    subtrees = [(lessthan,list(subtree)) for lessthan, subtree in
-                itertools.groupby(tree[1:], key = lambda x: x < thisroot)]
-    if len(subtrees) == 1: return validBST(subtrees[0][1])
-    if len(subtrees) > 2 or subtrees[0][0] == False: return False
-    return functools.reduce(lambda x, y: x and validBST(y[1]),subtrees)
+    except StopIteration:
+        return True
 
 def main():
     cases = int(input())
     for i in range(cases):
         length = int(input())
-        if length > 0:
-            testcase = [int(i) for i in input().split(' ')]
-            print("YES" if validBST(testcase) else "NO")
-        else: print ("YES")
+        print("YES" if validBST(int(i) for i in input().split(' ')) else "NO")
 
 if __name__ == '__main__': main()
-
