@@ -33,7 +33,7 @@ def validBST(tree):
     #   And returns an iterator of tuples of the key value and an iterator that leads to that key value
     # In this case, the key function returns True when the value belongs on a left subtree.
     # A valid sequence of subtrees would have 0 or 1 left subtrees followed by 0 or 1 right subtrees.
-    # There is at most 1 left subtree before a right subtree.
+    # In other words, there is at most 1 left subtree before a right subtree, and no later subtrees.
     # So, if you see any subtree grouping after a right subtree, then it's a left subtree, and that's invalid.
     return True
 
