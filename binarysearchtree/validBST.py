@@ -20,15 +20,22 @@ def validBST(tree):
     iterator = iter(tree)
     try:
         thisroot = next(iterator)
-        subtrees = itertools.groupby(iterator, key = lambda x: x < thisroot)
-        seenright = False
-        for lessthan, subtree in subtrees:
-            if seenright: return False
-            if not validBST(subtree): return False
-            seenright = not lessthan
-        return True
     except StopIteration:
         return True
+    subtrees = itertools.groupby(iterator, key = lambda x: x < thisroot)
+    seenright = False
+    for islefttree, subtree in subtrees:
+        if seenright: return False
+        if not validBST(subtree): return False
+        seenright = not islefttree
+    # Theory of why that works:
+    # itertools.groupby groups consecutive values by what the key function maps them to.
+    #   And returns an iterator of tuples of the key value and an iterator that leads to that key value
+    # In this case, the key function returns True when the value belongs on a left subtree.
+    # A valid sequence of subtrees would have 0 or 1 left subtrees followed by 0 or 1 right subtrees.
+    # There is at most 1 left subtree before a right subtree.
+    # So, if you see any subtree grouping after a right subtree, then it's a left subtree, and that's invalid.
+    return True
 
 def main():
     cases = int(input())
