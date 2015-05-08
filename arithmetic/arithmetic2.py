@@ -10,7 +10,7 @@ def calculatefactor(term):
     multterms = term.split('*')
     return functools.reduce(lambda x,y: x*y, (calculatediv(i) for i in multterms))
 
-def calculatesubtract(addterm):
+def calculateandsubtract(addterm):
     subtractterms = addterm.split('-')
     prefixsubtractterms = []
     for index, term in enumerate(subtractterms):
@@ -48,6 +48,6 @@ def doparens(input):
 def calculate(input):
     input = doparens(input)
     addterms = input.split('+')
-    value = functools.reduce(lambda x,y: x+y, (calculatesubtract(i) for i in addterms))
+    value = functools.reduce(lambda x,y: x+y, (calculateandsubtract(i) for i in addterms))
     return value.numerator if value.denominator == 1 else value.numerator/value.denominator
 
