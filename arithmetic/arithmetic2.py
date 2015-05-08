@@ -4,7 +4,7 @@ from fractions import Fraction
 
 def calculatediv(term):
     divterms = term.split('/')
-    return functools.reduce(lambda x,y: x/y, (int(i) for i in divterms[1:]), Fraction(divterms[0]))
+    return functools.reduce(lambda x,y: x/y, (Fraction(i) for i in divterms[1:]), Fraction(divterms[0]))
 
 def calculatefactor(term):
     multterms = term.split('*')
