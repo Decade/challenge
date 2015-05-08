@@ -28,7 +28,7 @@ def alldestinations(a,x,y,paths):
     #if abletomoveup(a,x,y): outers.append((x,y-1))
     # Huh. They didn't want moving backwards to be an option.
     if abletomovedown(a,x,y): outers.append((x,y+1))
-    #returnpaths = []
+    returnpaths = []
     for path in outers:
         if path not in paths:
             returnpaths.append(path)
