@@ -1,10 +1,15 @@
-# Now with 45 minutes, but getting the corners right takes a bit more time.
+# Now with 45 minutes, but getting the corners right takes a bit more time. Total time within a couple hours so far, though, probably.
 import functools
 from fractions import Fraction
 
+def rationalize(term):
+    return Fraction(*(int(i) for i in term.split(',')))
+def derationalize(term):
+    return str(term.numerator) + ',' + str(term.denominator)
+
 def calculatediv(term):
     divterms = term.split('/')
-    return functools.reduce(lambda x,y: x/y, (Fraction(i) for i in divterms[1:]), Fraction(divterms[0]))
+    return functools.reduce(lambda x,y: x/y, (rationalize(i) for i in divterms[1:]), rationalize(divterms[0]))
 
 def calculatefactor(term):
     multterms = term.split('*')
@@ -30,9 +35,9 @@ def doparenactive(input):
             return doparenactive(input)
         if character == ')':
             if index + 1 < len(input) and input[index+1] not in '+-*/)':
-                input = str(calculate(input[:index])) + '*' + input[index+1:]
+                input = str(calculaterational(input[:index])) + '*' + input[index+1:]
             else:
-                input = str(calculate(input[:index])) + input[index+1:]
+                input = str(calculaterational(input[:index])) + input[index+1:]
             return input
 
 def doparens(input):
@@ -45,9 +50,12 @@ def doparens(input):
             return doparens(input)
     return input
 
-def calculate(input):
+def calculaterational(input):
     input = doparens(input)
     addterms = input.split('+')
-    value = functools.reduce(lambda x,y: x+y, (calculateandsubtract(i) for i in addterms))
+    return derationalize(functools.reduce(lambda x,y: x+y, (calculateandsubtract(i) for i in addterms)))
+
+def calculate(input):
+    value = rationalize(calculaterational(input))
     return value.numerator if value.denominator == 1 else value.numerator/value.denominator
 
