@@ -35,9 +35,9 @@ def doparenactive(input):
             return doparenactive(input)
         if character == ')':
             if index + 1 < len(input) and input[index+1] not in '+-*/)':
-                input = str(calculaterational(input[:index])) + '*' + input[index+1:]
+                input = derationalize(calculaterational(input[:index])) + '*' + input[index+1:]
             else:
-                input = str(calculaterational(input[:index])) + input[index+1:]
+                input = derationalize(calculaterational(input[:index])) + input[index+1:]
             return input
 
 def doparens(input):
@@ -53,9 +53,9 @@ def doparens(input):
 def calculaterational(input):
     input = doparens(input)
     addterms = input.split('+')
-    return derationalize(functools.reduce(lambda x,y: x+y, (calculateandsubtract(i) for i in addterms)))
+    return functools.reduce(lambda x,y: x+y, (calculateandsubtract(i) for i in addterms))
 
 def calculate(input):
-    value = rationalize(calculaterational(input))
+    value = calculaterational(input)
     return value.numerator if value.denominator == 1 else value.numerator/value.denominator
 
