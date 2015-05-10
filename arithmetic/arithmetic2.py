@@ -19,7 +19,7 @@ def calculateandsubtract(addterm):
     subtractterms = addterm.split('-')
     prefixsubtractterms = []
     for index, term in enumerate(subtractterms):
-        if term == '':
+        if term[-1:] not in '0123456789':
             subtractterms[index+1] = '-1*' + subtractterms[index+1]
         else:
             prefixsubtractterms.append(term)
