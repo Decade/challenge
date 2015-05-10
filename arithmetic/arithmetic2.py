@@ -19,8 +19,8 @@ def calculateandsubtract(addterm):
     subtractterms = addterm.split('-')
     prefixsubtractterms = []
     for index, term in enumerate(subtractterms):
-        if term[-1:] not in '0123456789':
-            subtractterms[index+1] = '-1*' + subtractterms[index+1]
+        if term[-1:] not in '0123456789' or term == '':
+            subtractterms[index+1] = '-1*' + term + subtractterms[index+1]
         else:
             prefixsubtractterms.append(term)
     return functools.reduce(lambda x,y: x-y, (calculatefactor(i) for i in prefixsubtractterms))
